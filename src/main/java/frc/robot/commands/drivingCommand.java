@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -16,11 +17,15 @@ public class drivingCommand extends CommandBase {
   /**
    * Creates a new drivingCommant.
    */
-  private final driveTrain m_DriveTrain; 
-  public drivingCommand(driveTrain dt) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_DriveTrain = dt; 
-    addRequirements(m_DriveTrain);
+  private final driveTrain m_DriveTrain;  
+  private final XboxController m_controller; 
+  
+  public drivingCommand(driveTrain dt, XboxController Controller) {
+    // Use addRequirements() here to declare subsystem dependencies.              //this part is all necessary, beats me why just do it 
+    m_DriveTrain = dt;  
+    m_controller = Controller; 
+
+    addRequirements(m_DriveTrain);  //nothing else can use drivtrain while this command is running 
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +36,7 @@ public class drivingCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.drivingMethod(RobotContainer.driverController, Constants.DrivingSpeed); 
+    m_DriveTrain.drivingMethod(m_controller, Constants.DrivingSpeed); 
   }
 
   // Called once the command ends or is interrupted.
