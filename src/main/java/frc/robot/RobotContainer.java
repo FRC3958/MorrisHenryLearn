@@ -8,10 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;                                                  
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drivingCommand;
+import frc.robot.commands.spin;
 import frc.robot.subsystems.driveTrain;
+import frc.robot.subsystems.singleMotor;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -22,25 +26,38 @@ import frc.robot.subsystems.driveTrain;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final XboxController driverController = new XboxController(Constants.XboxPort);
-  public driveTrain m_DrivingTrain = new driveTrain();
-  public drivingCommand m_drivingCommand = new drivingCommand(m_DrivingTrain, driverController); 
 
+  public driveTrain m_DrivingTrain = new driveTrain();
+  public singleMotor m_singleMotor = new singleMotor(); 
+
+  public drivingCommand m_drivingCommand = new drivingCommand(m_DrivingTrain, driverController); 
+  public spin m_spin = new spin(m_singleMotor); 
  
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    SmartDashboard.putNumber("Speed", .5);    //puts speed limiter 
+    
     // Configure the button bindings
     configureButtonBindings();
   }
 
-  /**
+  /*
    * Use this method to define your button->command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
+  */
   private void configureButtonBindings() {
+    m_DrivingTrain.setDefaultCommand(m_drivingCommand);
+    
+        //TODO change smartDashboard speed to something else, "Speed" is the limit for the driveTrain 
+    new JoystickButton(driverController, Constants.aButtonController)   //makes button 
+      .whenPressed(() -> m_singleMotor.setMotor(SmartDashboard.getNumber("Speed", .5)))   //grabs speed to set from smartDashboard
+      .whenReleased(() -> m_singleMotor.setMotor(0))  //lambda, for minor functions that don't deserve
+      ;                                               //a full command, directly call method from subsystem
+
   }
 
 

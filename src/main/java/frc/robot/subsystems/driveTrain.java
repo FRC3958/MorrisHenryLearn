@@ -14,18 +14,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class driveTrain extends SubsystemBase {
+  
   /**
    * Creates a new driveTrain.
    */
+
   private final WPI_TalonSRX leftTalon = new WPI_TalonSRX(Constants.TalonPortLeft);     //sets up motor controllers, make sure to use WPI_TalonSRX
   private final WPI_TalonSRX rightTalon = new WPI_TalonSRX(Constants.TalonPortRight);
   public final DifferentialDrive WeenWad =new DifferentialDrive(leftTalon, rightTalon);     //differential drive 
 
   public driveTrain() {
   }
-
+  
   public void drivingMethod(XboxController controller, double speed) {        //you'll have to make this method yourself, gets controlled by the drivingCommand
-    WeenWad.arcadeDrive(controller.getRawAxis(Constants.LeftJoystickYAxis)*speed, controller.getRawAxis(Constants.RightJoystickXAxis)*speed); //up down for speed, left right for direction
+    WeenWad.arcadeDrive(controller.getRawAxis(Constants.LeftJoystickYAxis)*-speed, controller.getRawAxis(Constants.RightJoystickXAxis)*speed); //up down for speed, left right for direction
   }
 
   @Override

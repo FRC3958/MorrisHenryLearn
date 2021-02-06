@@ -22,9 +22,10 @@ public final class Constants {
     public static final int XboxPort = 0;
     public static final int LeftJoystickYAxis = 1;
     public static final int RightJoystickXAxis = 4; 
-    public static final int TalonFXPort = 2;
+    public static final int frontSingle = 1;
     public static final int aButtonController = 1;
-	public static final double DrivingSpeed = .5; 
+    public static final double DrivingSpeed = .5; 
+    public static final double singleMotorSpeed = .1; 
 
 
 }
