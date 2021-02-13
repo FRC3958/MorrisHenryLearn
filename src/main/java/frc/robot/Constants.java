@@ -24,6 +24,7 @@ public final class Constants {
     public static final int RightJoystickXAxis = 4; 
     public static final int frontSingle = 1;
     public static final int aButtonController = 1;
+    public static final int bButtonController = 2; 
     public static final double DrivingSpeed = .5; 
     public static final double singleMotorSpeed = .1; 
 

@@ -27,7 +27,7 @@ public class driveTrain extends SubsystemBase {
   }
   
   public void drivingMethod(XboxController controller, double speed) {        //you'll have to make this method yourself, gets controlled by the drivingCommand
-    WeenWad.arcadeDrive(controller.getRawAxis(Constants.LeftJoystickYAxis)*-speed, controller.getRawAxis(Constants.RightJoystickXAxis)*speed); //up down for speed, left right for direction
+    WeenWad.arcadeDrive(controller.getRawAxis(Constants.LeftJoystickYAxis)*speed, controller.getRawAxis(Constants.RightJoystickXAxis)*speed); //up down for speed, left right for direction
   }
 
   @Override

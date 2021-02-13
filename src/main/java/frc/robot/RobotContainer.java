@@ -12,10 +12,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import frc.robot.commands.drivingCommand;
 import frc.robot.commands.spin;
 import frc.robot.subsystems.driveTrain;
 import frc.robot.subsystems.singleMotor;
+
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -32,12 +38,16 @@ public class RobotContainer {
 
   public drivingCommand m_drivingCommand = new drivingCommand(m_DrivingTrain, driverController); 
   public spin m_spin = new spin(m_singleMotor); 
+
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
  
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     SmartDashboard.putNumber("Speed", .5);    //puts speed limiter 
+    SmartDashboard.putNumber("Front Speed", .1);
+    SmartDashboard.putString("Limelight IP", "http://10.39.58.11:5801/");     //type this in browser to get camera feed 
     
     // Configure the button bindings
     configureButtonBindings();
@@ -45,7 +55,7 @@ public class RobotContainer {
 
   /*
    * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
+   * instantiating a {@link GenericHID} or one of its subclasses ({@linkpP
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
   */
@@ -54,9 +64,14 @@ public class RobotContainer {
     
         //TODO change smartDashboard speed to something else, "Speed" is the limit for the driveTrain 
     new JoystickButton(driverController, Constants.aButtonController)   //makes button 
-      .whenPressed(() -> m_singleMotor.setMotor(SmartDashboard.getNumber("Speed", .5)))   //grabs speed to set from smartDashboard
+      .whenPressed(() -> m_singleMotor.setMotor(SmartDashboard.getNumber("Front Speed", .5)))   //grabs speed to set from smartDashboard
       .whenReleased(() -> m_singleMotor.setMotor(0))  //lambda, for minor functions that don't deserve
       ;                                               //a full command, directly call method from subsystem
+
+    new JoystickButton(driverController, Constants.bButtonController)   //bound to b 
+      .whenPressed(() -> table.getEntry("ledMode").setNumber(1))
+      .whenReleased(() -> table.getEntry("ledMode").setNumber(0))   //lambda to turn led on/off on limelight
+      ; 
 
   }
 
