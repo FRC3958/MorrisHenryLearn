@@ -27,6 +27,8 @@ public final class Constants {
     public static final int bButtonController = 2; 
     public static final double DrivingSpeed = .5; 
     public static final double singleMotorSpeed = .1; 
+    public static final int leftBumper = 5;
+    public static final int rightBumper = 6; 
 
 
 }

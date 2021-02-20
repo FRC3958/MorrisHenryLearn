@@ -62,11 +62,16 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_DrivingTrain.setDefaultCommand(m_drivingCommand);
     
-        //TODO change smartDashboard speed to something else, "Speed" is the limit for the driveTrain 
-    new JoystickButton(driverController, Constants.aButtonController)   //makes button 
-      .whenPressed(() -> m_singleMotor.setMotor(SmartDashboard.getNumber("Front Speed", .5)))   //grabs speed to set from smartDashboard
+      
+    new JoystickButton(driverController, Constants.rightBumper)   //makes button 
+      .whenPressed(() -> m_singleMotor.setMotor(SmartDashboard.getNumber("Front Speed", .5)*-1))   //grabs speed to set from smartDashboard
       .whenReleased(() -> m_singleMotor.setMotor(0))  //lambda, for minor functions that don't deserve
       ;                                               //a full command, directly call method from subsystem
+
+    new JoystickButton(driverController, Constants.leftBumper)   //makes button 
+      .whenPressed(() -> m_singleMotor.setMotor(SmartDashboard.getNumber("Front Speed", .5)))   //grabs speed to set from smartDashboard
+      .whenReleased(() -> m_singleMotor.setMotor(0))  //lambda, for minor functions that don't deserve
+      ; 
 
     new JoystickButton(driverController, Constants.bButtonController)   //bound to b 
       .whenPressed(() -> table.getEntry("ledMode").setNumber(1))
