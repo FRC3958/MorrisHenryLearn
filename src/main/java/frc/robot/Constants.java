@@ -29,6 +29,12 @@ public final class Constants {
     public static final double singleMotorSpeed = .1; 
     public static final int leftBumper = 5;
     public static final int rightBumper = 6; 
-
+    public static final int limeMotor = 2;
+    public static final double limeMotorSpeed = 0.1;
+    public static final int rightTrigger = 3;
+    public static final int leftTrigger = 2;
+    public static final int heightDifferenceInches = 34; 
+    public static final double angleDefault = 17.319; 
+ 
 
 }
