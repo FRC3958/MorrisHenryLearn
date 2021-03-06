@@ -15,10 +15,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.drivingCommand;
 import frc.robot.commands.limeSpin;
-import frc.robot.commands.limelightDistance;
+
 import frc.robot.commands.spin;
 import frc.robot.subsystems.driveTrain;
 import frc.robot.subsystems.limeMotor;
+import frc.robot.subsystems.limelight;
 import frc.robot.subsystems.singleMotor;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -44,8 +45,10 @@ public class RobotContainer {
   public spin m_spin = new spin(m_singleMotor); 
   public limeSpin m_spinnyLime = new limeSpin(m_limeMotor);
 
+  public limelight m_limelight = new limelight(); 
+
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  public limelightDistance m_LimelightDistance = new limelightDistance(); 
+
  
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -79,9 +82,6 @@ public class RobotContainer {
       .whenReleased(() -> m_singleMotor.setMotor(0))  //lambda, for minor functions that don't deserve
       ; 
 
-    new JoystickButton(driverController, Constants.bButtonController)   //bound to b 
-        .whenHeld(m_LimelightDistance)  //lambda to turn led on/off on limelight
-      ; 
 
     //new JoystickButton(driverController, Constants.leftTrigger)
     //  .whenPressed(() -> m_limeMotor.setSpeed(SmartDashboard.getNumber("LimeSpeed", 0.2)*0.1))
