@@ -37,7 +37,8 @@ public class drivingCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_DriveTrain.drivingMethod(m_controller, SmartDashboard.getNumber("Speed", 0.5)); 
+    double speedLimit = SmartDashboard.getNumber("Speed", 0.5);
+    m_DriveTrain.arcadeDrive(-m_controller.getRawAxis(Constants.LeftJoystickYAxis)*speedLimit, -m_controller.getRawAxis(Constants.RightJoystickXAxis)*speedLimit); 
   }
 
   // Called once the command ends or is interrupted.

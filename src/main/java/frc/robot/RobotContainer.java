@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.commands.MoveToDistance;
 import frc.robot.commands.drivingCommand;
 import frc.robot.commands.limeSpin;
 
@@ -46,6 +46,7 @@ public class RobotContainer {
   public limeSpin m_spinnyLime = new limeSpin(m_limeMotor);
 
   public limelight m_limelight = new limelight(); 
+  
 
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -58,6 +59,8 @@ public class RobotContainer {
     SmartDashboard.putNumber("Front Speed", .1);
     SmartDashboard.putString("Limelight IP", "http://10.39.58.11:5801/");     //type this in browser to get camera feed 
     SmartDashboard.putNumber("Lime Speed", 0.2);
+    SmartDashboard.putNumber("Target", 120); 
+    table.getEntry("ledMode").setNumber(1);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -69,7 +72,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
   */
   private void configureButtonBindings() {
-    m_DrivingTrain.setDefaultCommand(m_drivingCommand);
+    m_DrivingTrain.setDefaultCommand(new drivingCommand(m_DrivingTrain, driverController));
     
       
     new JoystickButton(driverController, Constants.rightBumper)   //makes button 
@@ -82,6 +85,9 @@ public class RobotContainer {
       .whenReleased(() -> m_singleMotor.setMotor(0))  //lambda, for minor functions that don't deserve
       ; 
 
+    new JoystickButton(driverController, Constants.bButtonController)   //TODO target doesn't change off smart dashboard, always going to 120
+      .whenHeld(new MoveToDistance(SmartDashboard.getNumber("Target", 120), m_DrivingTrain, m_limelight))  //passing in object
+      ; 
 
     //new JoystickButton(driverController, Constants.leftTrigger)
     //  .whenPressed(() -> m_limeMotor.setSpeed(SmartDashboard.getNumber("LimeSpeed", 0.2)*0.1))

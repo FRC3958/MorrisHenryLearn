@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -24,11 +25,16 @@ public class driveTrain extends SubsystemBase {
   public final DifferentialDrive WeenWad =new DifferentialDrive(leftTalon, rightTalon);     //differential drive 
 
   public driveTrain() {
+    leftTalon.setInverted(InvertType.InvertMotorOutput);
+    rightTalon.setInverted(InvertType.InvertMotorOutput);
   }
   
-  public void drivingMethod(XboxController controller, double speed) {        //you'll have to make this method yourself, gets controlled by the drivingCommand
-    WeenWad.arcadeDrive(controller.getRawAxis(Constants.LeftJoystickYAxis)*speed, controller.getRawAxis(Constants.RightJoystickXAxis)*speed); //up down for speed, left right for direction
+
+
+  public void arcadeDrive(double forwardSpeed, double turnSpeed) {
+    WeenWad.arcadeDrive(forwardSpeed, turnSpeed);
   }
+
 
   @Override
   public void periodic() {
