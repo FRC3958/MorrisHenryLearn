@@ -17,6 +17,7 @@ import frc.robot.commands.drivingCommand;
 import frc.robot.commands.limeSpin;
 
 import frc.robot.commands.spin;
+import frc.robot.commands.turnToAngle;
 import frc.robot.subsystems.driveTrain;
 import frc.robot.subsystems.limeMotor;
 import frc.robot.subsystems.limelight;
@@ -89,6 +90,9 @@ public class RobotContainer {
       .whenHeld(new MoveToDistance(SmartDashboard.getNumber("Target", 120), m_DrivingTrain, m_limelight))  //passing in object
       ; 
 
+    new JoystickButton(driverController, Constants.aButtonController)
+      .whenHeld(new turnToAngle(m_limelight, m_DrivingTrain))
+      ;
     //new JoystickButton(driverController, Constants.leftTrigger)
     //  .whenPressed(() -> m_limeMotor.setSpeed(SmartDashboard.getNumber("LimeSpeed", 0.2)*0.1))
     //  .whenReleased(() -> m_limeMotor.setSpeed(0.0))

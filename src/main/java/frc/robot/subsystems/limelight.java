@@ -31,6 +31,7 @@ public class limelight extends SubsystemBase {
   }
 
   double distanceToTarget;
+  double xDistanceDouble; 
 
   @Override
   public void periodic() {
@@ -48,10 +49,17 @@ public class limelight extends SubsystemBase {
     
     distanceToTarget = Constants.heightDifferenceInches/tanAngle;   //self explanatory
     SmartDashboard.putNumber("final distance", distanceToTarget);
+
+    final NetworkTableEntry xDistance = limetable.getEntry("tx"); 
+    xDistanceDouble = xDistance.getDouble(0.0); 
   }
 
   public double getDistanceToTarget() {
     return distanceToTarget; 
+  }
+
+  public double getAngleOffset() {
+    return xDistanceDouble; 
   }
 
 

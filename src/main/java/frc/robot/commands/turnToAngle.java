@@ -7,30 +7,23 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.driveTrain;
 import frc.robot.subsystems.limelight;
 
-public class MoveToDistance extends CommandBase {
+public class turnToAngle extends CommandBase {
   /**
-   * Creates a new MoveToDistance.
+   * Creates a new turnToAngle.
    */
 
-  double m_target;
-  limelight m_limelight; 
-  public double forwardBackward = 0; 
-  driveTrain m_DriveTrain; 
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  limelight m_limelight;
+  driveTrain m_driveTrain;
 
-  public MoveToDistance(double target, driveTrain dt, limelight lm) {
-    m_DriveTrain = dt; 
-    m_target = target; 
-    m_limelight = lm; 
-    
+  public turnToAngle(limelight lm, driveTrain dt) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_DriveTrain);
+    m_limelight=lm;
+    m_driveTrain=dt;
+    addRequirements(m_driveTrain);
   }
 
   // Called when the command is initially scheduled.
@@ -41,29 +34,22 @@ public class MoveToDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-      table.getEntry("ledMode").setNumber(0);
-      if ((m_target - m_limelight.getDistanceToTarget()) > 0 ) {
-        m_DriveTrain.arcadeDrive(-.5, 0);
-        
-      }
-      else {
-        m_DriveTrain.arcadeDrive(.5, 0);
-
-      }
-
+    if (m_limelight.getAngleOffset() > 0) {
+      m_driveTrain.arcadeDrive(0, -0.4);
+    }
+    else {
+      m_driveTrain.arcadeDrive(0, 0.4);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    table.getEntry("ledMode").setNumber(1);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double distanceDifference = Math.abs(m_target - m_limelight.getDistanceToTarget()); 
-    return distanceDifference <= 3;     //returns true once within an inch, might increase tolerance becuase limelight fluctuates
+    return (Math.abs(m_limelight.getAngleOffset()) <= 0.5);
   }
 }
